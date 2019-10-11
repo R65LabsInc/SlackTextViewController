@@ -517,6 +517,10 @@ SLKPastableMediaType SLKPastableMediaTypeFromNSString(NSString *string)
         pointSize += SLKPointSizeDifferenceForCategory(contentSizeCategory);
     }
     
+    if ([fontName isEqualToString:[[UIFont systemFontOfSize:pointSize] fontName]]) {
+        fontName = @"-apple-system";
+    }
+    
     UIFont *dynamicFont = [UIFont fontWithName:fontName size:pointSize];
     
     [super setFont:dynamicFont];
