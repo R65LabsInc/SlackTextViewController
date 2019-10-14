@@ -436,7 +436,8 @@ NSString * const SLKTextInputbarDidMoveNotification =   @"SLKTextInputbarDidMove
 - (void)setBackgroundColor:(UIColor *)color
 {
     [super setBackgroundColor:color];
-
+    
+    self.backgroundView.backgroundColor = color;
     self.editorContentView.backgroundColor = color;
 }
 
