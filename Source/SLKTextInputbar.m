@@ -34,6 +34,7 @@ NSString * const SLKTextInputbarDidMoveNotification =   @"SLKTextInputbarDidMove
 @property (nonatomic, strong) NSLayoutConstraint *editorContentViewHC;
 @property (nonatomic, strong) NSArray *charCountLabelVCs;
 
+@property (nonatomic, strong) UIView *backgroundView;
 @property (nonatomic, strong) UILabel *charCountLabel;
 
 @property (nonatomic) CGPoint previousOrigin;
@@ -45,6 +46,7 @@ NSString * const SLKTextInputbarDidMoveNotification =   @"SLKTextInputbarDidMove
 @end
 
 @implementation SLKTextInputbar
+@synthesize backgroundView = _backgroundView;
 @synthesize textView = _textView;
 @synthesize contentView = _contentView;
 @synthesize inputAccessoryView = _inputAccessoryView;
@@ -87,6 +89,7 @@ NSString * const SLKTextInputbarDidMoveNotification =   @"SLKTextInputbarDidMove
     self.contentInset = UIEdgeInsetsMake(5.0, 8.0, 5.0, 8.0);
     self.backgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:1.0]; //UIToolbar native bar tint color
 
+    [self addSubview:self.backgroundView];
     [self addSubview:self.editorContentView];
     [self addSubview:self.leftButton];
     [self addSubview:self.rightButton];
@@ -211,6 +214,16 @@ NSString * const SLKTextInputbarDidMoveNotification =   @"SLKTextInputbarDidMove
         [_rightButton setTitle:title forState:UIControlStateNormal];
     }
     return _rightButton;
+}
+
+- (UIView *)backgroundView
+{
+    if (!_backgroundView) {
+        _backgroundView = [[UIView alloc] init];
+        _backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
+        _backgroundView.backgroundColor = [UIColor colorWithRed:247.0/255.0 green:247.0/255.0 blue:247.0/255.0 alpha:1.0]; //UIToolbar native bar tint color
+    }
+    return _backgroundView;
 }
 
 - (UIView *)editorContentView
@@ -656,6 +669,11 @@ NSString * const SLKTextInputbarDidMoveNotification =   @"SLKTextInputbarDidMove
 
 - (void)slk_setupViewConstraints
 {
+    [self.backgroundView.topAnchor constraintEqualToAnchor:self.topAnchor].active = YES;
+    [self.backgroundView.leftAnchor constraintEqualToAnchor:self.leftAnchor].active = YES;
+    [self.backgroundView.rightAnchor constraintEqualToAnchor:self.rightAnchor].active = YES;
+    [self.backgroundView.heightAnchor constraintEqualToConstant:400].active = YES;
+    
     NSDictionary *views = @{@"textView": self.textView,
                             @"leftButton": self.leftButton,
                             @"rightButton": self.rightButton,
